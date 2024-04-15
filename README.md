@@ -27,8 +27,23 @@ Load the Mistral-7B-BNB-4bit model.
 Apply Unsloth's LoRA adaptations.
 Use the `SFTTrainer` for the finetuning process.
 
-### Inference
-Demonstrate how to load the fine-tuned model and tokenizer.
+## Inference
+Here's how to load the fine-tuned model, tokenizer, and use it for sentiment prediction:
+```
+Python
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+model_path = "lora_model"  # Update with the path where your finetuned model is saved
+tokenizer = AutoTokenizer.from_pretrained(model_path) 
+model = AutoModelForSequenceClassification.from_pretrained(model_path)
+
+review = "This movie was truly inspiring and beautifully acted."
+inputs = tokenizer(review, return_tensors="pt")
+outputs = model(**inputs)
+
+predicted_label = outputs.logits.argmax().item()
+print(f"Predicted Sentiment: {tokenizer.decode(predicted_label)}")
+```
 
 ### Explanation:
 1. Loading: The fine-tuned model and its associated tokenizer are loaded from your saved directory.
